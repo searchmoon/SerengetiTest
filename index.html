@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTItest</title>
+    <link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous">
+    <!-- 부트스트랩 링크는 style.css보다 위에 넣어준다 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+    crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./style.css">
+    
+  </head>
+
+  <body class="container">
+
+
+<article class="start">
+  <h1 class="mt-5 text-center">나랑 꼭 닮은 세렝게티 동물은?</h1>
+  <button type="button" class="btn btn-info mt-5" onclick="goStart();">테스트 시작하기</button>
+</article>
+
+<article class="question">
+  <div class="progress mt-5">
+    <div class="progress-bar" role="progressbar" style="width: calc(100/12*1%)" ></div>
+    <!-- progress-bar의 calc계산식은 12문제니까 100%에서 12로 나누고 1~12까지 각각 나눈 만큼 곱해서 들어가면 된다 -->
+  </div>
+  <h2 id="title" class="text-center mt-5">문제</h2>
+  <input id="type" type="hidden" value="EI">
+  <button id="A" type="button" class="btn btn-info mt-5">Info</button>
+  <button id="B" type="button" class="btn btn-info mt-5">Info</button>
+</article>
+<article class="result">
+  <img id="img" class="rounded-circle mt-5" src="lion.jpg" alt="animal">
+  <h2 id="animal" class="text-center mt-5">동물이름</h2>
+  <h3 id="explain" class="text-center mt-5">설명</h3>
+</article>
+<input type="hidden" id="EI" value="0">
+<input type="hidden" id="SN" value="0">
+<input type="hidden" id="TF" value="0">
+<input type="hidden" id="JP" value="0">
+
+
+<script>
+
+  let num = 1;
+  // 1번부터 시작하니깐 변수에 1을 넣어줌
+  let q = {
+    1: {"title": "문제 1번", "type": "EI", "A": "E", "B": "I"},
+    2: {"title": "문제 2번", "type": "EI", "A": "E", "B": "I"},
+    3: {"title": "문제 3번", "type": "EI", "A": "E", "B": "I"},
+    4: {"title": "문제 4번", "type": "SN", "A": "S", "B": "N"},
+    5: {"title": "문제 5번", "type": "SN", "A": "S", "B": "N"},
+    6: {"title": "문제 6번", "type": "SN", "A": "S", "B": "N"},
+    7: {"title": "문제 7번", "type": "TF", "A": "T", "B": "F"},
+    8: {"title": "문제 8번", "type": "TF", "A": "T", "B": "F"},
+    9: {"title": "문제 9번", "type": "TF", "A": "T", "B": "F"},
+    10: {"title": "문제 10번", "type": "JP", "A": "J", "B": "P"},
+    11: {"title": "문제 11번", "type": "JP", "A": "J", "B": "P"},
+    12: {"title": "문제 12번", "type": "JP", "A": "J", "B": "P"},
+  }
+  //{"title": "문제 1번", "type": "EI", "A": "E", "B": "I"}에서
+  //A는 첫번째 버튼 B는 두번째 버튼
+  let result = {
+    "ISTJ": {"animal": "하마", "explain": "하마 설명", "img": "lion.jpg"},
+    "ISFJ": {"animal": "부엉이", "explain": "부엉이 설명", "img": "lion.jpg"},
+    "INFJ": {"animal": "물소", "explain": "물소 설명", "img": "lion.jpg"},
+    "INTJ": {"animal": "치타", "explain": "치타 설명", "img": "lion.jpg"},
+    "ISTP": {"animal": "나무늘보", "explain": "나무늘보 설명", "img": "lion.jpg"},
+    "ISFP": {"animal": "거북이", "explain": "거북이 설명", "img": "lion.jpg"},
+    "INFP": {"animal": "코끼리", "explain": "코끼리 설명", "img": "lion.jpg"},
+    "INTP": {"animal": "침팬지", "explain": "침팬지 설명", "img": "lion.jpg"},
+    "ESTP": {"animal": "악어", "explain": "악어 설명", "img": "lion.jpg"},
+    "ESFP": {"animal": "미어캣", "explain": "미어캣 설명", "img": "lion.jpg"},
+    "ENFP": {"animal": "멋쟁이 사자", "explain": "멋쟁이 사자 설명", "img": "lion.jpg"},
+    "ENTP": {"animal": "태양새", "explain": "태양새 설명", "img": "lion.jpg"},
+    "ESTJ": {"animal": "기린", "explain": "기린 설명", "img": "lion.jpg"},
+    "ESFJ": {"animal": "고릴라", "explain": "고릴라 설명", "img": "lion.jpg"},
+    "ENFJ": {"animal": "카피바라", "explain": "카피바라 설명", "img": "lion.jpg"},
+    "ENTJ": {"animal": "호랑이", "explain": "호랑이 설명", "img": "lion.jpg"},
+  }
+  function goStart() {
+    $(".start").hide();
+    $(".question").show();
+    next();
+  }
+//시작버튼을 눌렀을 때 동작하는 함수로, .start를 숨겨주고 .question을 보여주면서
+//바로 첫번째 문제가 나올 수 있도록...next()
+
+$("#A").click(function(){
+  let type = $("#type").val();
+  let preValue = $("#"+type).val();
+  $("#"+type).val(parseInt(preValue)+1);
+  next();
+});
+// 위아래 두개의 버튼중에 위의 버튼을 눌렀을 때 1을 더해주는 함수
+//A를 클릭하면 타입정보를 가져와서 그 타입의 값에서 1을 더해주고
+//다음함수로 넘어갈수 있도록 next()를 줌
+
+$("#B").click(function(){
+  next();
+});
+//B를 클릭했을때도 넘어갈수 있게 해줌. 점수가 증가하는것은 A를 클릭했을때만
+//증가하는거라 next()만 적어줌.
+
+function next() {
+  if (num == 13) {
+    $(".question").hide();
+    $(".result").show();
+    //12번이 끝난 후에는 question을 숨겨주고, result를 보여준다.
+    //mbti를 설명하는 최종로직 ->
+    let mbti = "";
+    // if ($("#EI").val() < 2) {
+    //   mbti = mbti + "I";
+    // } else {
+    //   mbti = mbti + "E";
+    // }
+    ($("#EI").val() < 2) ? mbti += "I" : mbti += "E";
+    ($("#SN").val() < 2) ? mbti += "N" : mbti += "S";
+    ($("#TF").val() < 2) ? mbti += "F" : mbti += "T";
+    ($("#JP").val() < 2) ? mbti += "P" : mbti += "J";
+    //이 위의 if문을 간결하게 해주기 위해 삼항연산자로 변경해주었다.
+    alert(mbti);
+    $("#img").attr("src", result[mbti]["img"]);
+    $("#animal").html(result[mbti]["animal"]);
+    $("#explain").html(result[mbti]["explain"]);
+  } else {
+    $(".progress-bar").attr('style', 'width: calc(100/12*'+num+'%)');
+    $("#title").html(q[num]["title"]);
+    $("#type").val(q[num]["type"]);
+    $("#A").html(q[num]["A"]);
+    $("#B").html(q[num]["B"]);
+    num++;
+  }
+  //이 else부분은 in(num == 13)이 아닌부분(1~12번까지)에서는
+  // 이코드를 실행해야 하기 때문에 else부분에 넣어주었다.
+}
+// 다음문제로 넘어가는 함수. num++를 넣어주어 1번다음에 2번, 2번다음에 3번이 실행되게
+
+</script>
+  </body>
+
+</html>
+
+netlify에서 배포해주겠다
+
